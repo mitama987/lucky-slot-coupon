@@ -78,7 +78,7 @@ const spinLimiter = new SpinLimiter();
 
 // 決済ページURL
 const PAYMENT_URLS = {
-    buyout: 'https://page.theapps.jp/charge/t6LwBGzEZEJuJ9K6c5bOdA%3D%3D',
+    buyout: 'https://page.theapps.jp/charge/join/U8hv3G40M25l11n2',
     subscription: 'https://page.theapps.jp/contract/NioqTm3pHgxHHmNTkvJA7w%3D%3D'
 };
 
