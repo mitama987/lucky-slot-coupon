@@ -82,6 +82,7 @@ export function SlotMachine() {
         if (reachTriggered && !isFreeze) {
             setIsReach(true);
             sounds.playReachEffect();
+            sounds.startReachBgm();
         }
 
         // Stop logic
@@ -91,7 +92,7 @@ export function SlotMachine() {
         // 3rd reel takes much longer if Reach
         setTimeout(() => {
             stopReel(2);
-        }, reachTriggered ? 5000 : 2500);
+        }, reachTriggered ? 7000 : 2500);
 
     };
 
@@ -107,6 +108,7 @@ export function SlotMachine() {
             // All stopped
             setIsSpinning(false);
             setIsReach(false);
+            sounds.stopReachBgm();
             setTimeout(() => {
                 setModalOpen(true);
             }, 500);
@@ -166,7 +168,7 @@ export function SlotMachine() {
                 <div className="flex gap-2 relative z-10">
                     <Reel reelId={0} isSpinning={reelSpinning[0]} isReach={isReach} targetSymbolIndex={targetPositions[0]} stopDelay={1500} onStop={() => { }} />
                     <Reel reelId={1} isSpinning={reelSpinning[1]} isReach={isReach} targetSymbolIndex={targetPositions[1]} stopDelay={2000} onStop={() => { }} />
-                    <Reel reelId={2} isSpinning={reelSpinning[2]} isReach={isReach} targetSymbolIndex={targetPositions[2]} stopDelay={isReach ? 5000 : 2500} onStop={() => { }} />
+                    <Reel reelId={2} isSpinning={reelSpinning[2]} isReach={isReach} targetSymbolIndex={targetPositions[2]} stopDelay={isReach ? 7000 : 2500} onStop={() => { }} />
                 </div>
             </div>
 

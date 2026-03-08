@@ -31,6 +31,8 @@ export function Reel({ isSpinning, isReach, targetSymbolIndex, stopDelay, onStop
     const initialSymbolIndex = Math.floor(Math.random() * TOTAL_SYMBOLS);
 
     useEffect(() => {
+        let cancelled = false;
+
         if (isSpinning) {
             if (targetSymbolIndex === null) return;
 
@@ -51,6 +53,7 @@ export function Reel({ isSpinning, isReach, targetSymbolIndex, stopDelay, onStop
                         y: targetY + (SYMBOL_HEIGHT * TOTAL_SYMBOLS), // stop one rotation before
                         transition: { duration: spinDuration * 0.4, ease: "linear" }
                     });
+                    if (cancelled) return;
                     // Then dramatic slow down
                     await controls.start({
                         y: targetY,
@@ -67,11 +70,14 @@ export function Reel({ isSpinning, isReach, targetSymbolIndex, stopDelay, onStop
                     });
                 }
 
-                onStop();
+                if (!cancelled) {
+                    onStop();
+                }
             };
             animateSpin();
 
         } else {
+            controls.stop();
             // If not spinning, reset position to just the initial or last known target
             if (targetSymbolIndex !== null) {
                 controls.set({ y: -(targetSymbolIndex * SYMBOL_HEIGHT) });
@@ -80,6 +86,11 @@ export function Reel({ isSpinning, isReach, targetSymbolIndex, stopDelay, onStop
                 controls.set({ y: -(initialSymbolIndex * SYMBOL_HEIGHT) });
             }
         }
+
+        return () => {
+            cancelled = true;
+            controls.stop();
+        };
     }, [isSpinning, targetSymbolIndex, stopDelay, isReach, controls, reelId, initialSymbolIndex]);
 
     return (
@@ -89,20 +100,11 @@ export function Reel({ isSpinning, isReach, targetSymbolIndex, stopDelay, onStop
                 className="absolute top-0 w-full flex flex-col"
                 style={{ willChange: "transform" }}
             >
-                {isSpinning ? (
-                    stripSymbols.map((item, i) => (
-                        <div key={i} className="w-full h-[120px] flex items-center justify-center text-7xl select-none" style={{ textShadow: '0 0 20px rgba(0,0,0,0.5)' }}>
-                            {item}
-                        </div>
-                    ))
-                ) : (
-                    // Pre-spin / Idle state (just render the basic symbols + an extra set to avoid glitch if user resizes or something, but we position carefully using y offset)
-                    [...SYMBOLS, ...SYMBOLS].map((item, i) => (
-                        <div key={i} className="w-full h-[120px] flex items-center justify-center text-7xl select-none">
-                            {item}
-                        </div>
-                    ))
-                )}
+                {stripSymbols.map((item, i) => (
+                    <div key={i} className="w-full h-[120px] flex items-center justify-center text-7xl select-none" style={{ textShadow: '0 0 20px rgba(0,0,0,0.5)' }}>
+                        {item}
+                    </div>
+                ))}
             </motion.div>
             {/* Shine overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 pointer-events-none" />

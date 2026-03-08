@@ -2,7 +2,43 @@ import { useRef, useCallback, useState } from 'react';
 
 export function useSoundEffects() {
     const audioContextRef = useRef<AudioContext | null>(null);
+    const normalBgmRef = useRef<HTMLAudioElement | null>(null);
+    const reachBgmRef = useRef<HTMLAudioElement | null>(null);
     const [isMuted, setIsMuted] = useState(false);
+
+    const initBgm = useCallback(() => {
+        if (!normalBgmRef.current) {
+            const base = import.meta.env.BASE_URL;
+            normalBgmRef.current = new Audio(`${base}bgm/Golden_Cascade.mp3`);
+            normalBgmRef.current.loop = true;
+            normalBgmRef.current.volume = 0.3;
+
+            reachBgmRef.current = new Audio(`${base}bgm/Jackpot_Cascade.mp3`);
+            reachBgmRef.current.loop = true;
+            reachBgmRef.current.volume = 0.4;
+        }
+    }, []);
+
+    const startReachBgm = useCallback(() => {
+        if (isMuted) return;
+        if (normalBgmRef.current) {
+            normalBgmRef.current.pause();
+        }
+        if (reachBgmRef.current) {
+            reachBgmRef.current.currentTime = 0;
+            reachBgmRef.current.play().catch(() => {});
+        }
+    }, [isMuted]);
+
+    const stopReachBgm = useCallback(() => {
+        if (reachBgmRef.current) {
+            reachBgmRef.current.pause();
+            reachBgmRef.current.currentTime = 0;
+        }
+        if (normalBgmRef.current && !isMuted) {
+            normalBgmRef.current.play().catch(() => {});
+        }
+    }, [isMuted]);
 
     // Initialize and resume audio context (needs user interaction)
     const init = useCallback(() => {
@@ -12,7 +48,11 @@ export function useSoundEffects() {
         if (audioContextRef.current.state === 'suspended') {
             audioContextRef.current.resume();
         }
-    }, []);
+        initBgm();
+        if (normalBgmRef.current && !isMuted) {
+            normalBgmRef.current.play().catch(() => {});
+        }
+    }, [initBgm, isMuted]);
 
     // Rest of original sounds (Spin, Stop, WinSmall, WinBig, Lose)
     const playSpinStart = useCallback(() => {
@@ -202,7 +242,16 @@ export function useSoundEffects() {
 
 
     const toggleMute = useCallback(() => {
-        setIsMuted(prev => !prev);
+        setIsMuted(prev => {
+            const next = !prev;
+            if (next) {
+                normalBgmRef.current?.pause();
+                reachBgmRef.current?.pause();
+            } else {
+                normalBgmRef.current?.play().catch(() => {});
+            }
+            return next;
+        });
     }, []);
 
     return {
@@ -215,6 +264,8 @@ export function useSoundEffects() {
         playWinBig,
         playLose,
         playReachEffect,
-        playFreezeEffect
+        playFreezeEffect,
+        startReachBgm,
+        stopReachBgm
     };
 }
