@@ -35,7 +35,7 @@ function App() {
               <Package className="w-5 h-5 text-zinc-300" />
             </div>
             <span className="font-medium text-zinc-300 group-hover:text-white transition-colors">
-              XToolsPro2_NoAPIの詳細はこちら
+              XToolsPro3の詳細はこちら
             </span>
             <span className="text-zinc-500 group-hover:text-zinc-300 ml-2 group-hover:translate-x-1 transition-all">
               →

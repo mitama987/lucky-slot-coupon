@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 
 export const SYMBOLS = ['7', '★', 'BAR', '🍒', '🔔', '💎'];
-export const MAX_SPINS_PER_DAY = 3;
+export const MAX_SPINS_PER_DAY = 5;
 const STORAGE_KEY = 'luckySlot_spinData';
 
 export const COUPONS = {

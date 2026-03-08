@@ -3,7 +3,7 @@ const SYMBOLS = ['7', '★', 'BAR', '🍒', '🔔', '💎'];
 const SYMBOL_HEIGHT = 120; // CSSのsymbol高さと合わせる
 
 // ===== 1日3回制限マネージャー（localStorage） =====
-const MAX_SPINS_PER_DAY = 3;
+const MAX_SPINS_PER_DAY = 5;
 const STORAGE_KEY = 'luckySlot_spinData';
 
 class SpinLimiter {
