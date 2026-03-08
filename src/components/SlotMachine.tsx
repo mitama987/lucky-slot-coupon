@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Reel } from './Reel';
 import { ResultModal } from './ResultModal';
 import { useSlotLogic } from '@/hooks/useSlotLogic';
@@ -120,6 +120,13 @@ export function SlotMachine() {
     const handleModalClose = () => {
         setModalOpen(false);
     };
+
+    // Play fanfare when modal opens on a win
+    useEffect(() => {
+        if (modalOpen && (result === 'big' || result === 'small')) {
+            sounds.playFanfare();
+        }
+    }, [modalOpen, result, sounds]);
 
     return (
         <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center">

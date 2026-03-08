@@ -4,9 +4,14 @@ import { Card } from '@/components/ui/card';
 import { Copy, PartyPopper } from 'lucide-react';
 import { COUPONS, PAYMENT_URLS } from '@/hooks/useSlotLogic';
 import type { SpinResult } from '@/hooks/useSlotLogic';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import confetti from 'canvas-confetti';
+
+function randomInRange(min: number, max: number) {
+    return Math.random() * (max - min) + min;
+}
 
 interface ResultModalProps {
     isOpen: boolean;
@@ -16,6 +21,36 @@ interface ResultModalProps {
 
 export function ResultModal({ isOpen, onClose, result }: ResultModalProps) {
     const [copied, setCopied] = useState(false);
+
+    useEffect(() => {
+        if (isOpen && (result === 'big' || result === 'small')) {
+            if (result === 'big') {
+                const duration = 3000;
+                const animationEnd = Date.now() + duration;
+                const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+                const interval: any = setInterval(function () {
+                    const timeLeft = animationEnd - Date.now();
+
+                    if (timeLeft <= 0) {
+                        return clearInterval(interval);
+                    }
+
+                    const particleCount = 50 * (timeLeft / duration);
+                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#fbbf24', '#f59e0b', '#d97706', '#fff'] });
+                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#fbbf24', '#f59e0b', '#d97706', '#fff'] });
+                }, 250);
+            } else if (result === 'small') {
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    colors: ['#60a5fa', '#3b82f6', '#2563eb', '#ffffff'],
+                    zIndex: 100
+                });
+            }
+        }
+    }, [isOpen, result]);
 
     // Determine coupon based on result
     let selectedCoupon = null;

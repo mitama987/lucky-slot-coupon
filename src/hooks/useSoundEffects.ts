@@ -26,7 +26,7 @@ export function useSoundEffects() {
         }
         if (reachBgmRef.current) {
             reachBgmRef.current.currentTime = 0;
-            reachBgmRef.current.play().catch(() => {});
+            reachBgmRef.current.play().catch(() => { });
         }
     }, [isMuted]);
 
@@ -36,7 +36,7 @@ export function useSoundEffects() {
             reachBgmRef.current.currentTime = 0;
         }
         if (normalBgmRef.current && !isMuted) {
-            normalBgmRef.current.play().catch(() => {});
+            normalBgmRef.current.play().catch(() => { });
         }
     }, [isMuted]);
 
@@ -50,7 +50,7 @@ export function useSoundEffects() {
         }
         initBgm();
         if (normalBgmRef.current && !isMuted) {
-            normalBgmRef.current.play().catch(() => {});
+            normalBgmRef.current.play().catch(() => { });
         }
     }, [initBgm, isMuted]);
 
@@ -166,6 +166,51 @@ export function useSoundEffects() {
         osc.stop(now + 0.5);
     }, [isMuted]);
 
+    const playFanfare = useCallback(() => {
+        const ctx = audioContextRef.current;
+        if (!ctx || isMuted) return;
+        const now = ctx.currentTime;
+
+        // G4, G4, G4 (pa-pa-pa)
+        const lead = [
+            { freq: 392.00, time: 0, dur: 0.15 },
+            { freq: 392.00, time: 0.15, dur: 0.15 },
+            { freq: 392.00, time: 0.30, dur: 0.15 },
+        ];
+
+        lead.forEach(note => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'square';
+            osc.frequency.value = note.freq;
+            gain.gain.setValueAtTime(0, now + note.time);
+            gain.gain.linearRampToValueAtTime(0.15, now + note.time + 0.02);
+            gain.gain.setValueAtTime(0.15, now + note.time + note.dur - 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + note.time + note.dur);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + note.time);
+            osc.stop(now + note.time + note.dur);
+        });
+
+        // Final chord C major: C5, E5, G5 (paaaan!)
+        const chord = [523.25, 659.25, 783.99];
+        chord.forEach(freq => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'square';
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0, now + 0.45);
+            gain.gain.linearRampToValueAtTime(0.15, now + 0.50);
+            gain.gain.setValueAtTime(0.15, now + 1.5);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 2.0);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + 0.45);
+            osc.stop(now + 2.0);
+        });
+    }, [isMuted]);
+
     // --- NEW: Pachislot Effects ---
 
     // Reach Effect (High tension siren/heartbeat)
@@ -248,7 +293,7 @@ export function useSoundEffects() {
                 normalBgmRef.current?.pause();
                 reachBgmRef.current?.pause();
             } else {
-                normalBgmRef.current?.play().catch(() => {});
+                normalBgmRef.current?.play().catch(() => { });
             }
             return next;
         });
@@ -263,6 +308,7 @@ export function useSoundEffects() {
         playWinSmall,
         playWinBig,
         playLose,
+        playFanfare,
         playReachEffect,
         playFreezeEffect,
         startReachBgm,
