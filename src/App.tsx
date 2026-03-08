@@ -26,7 +26,7 @@ function App() {
         {/* Footer Link */}
         <div className="mt-20">
           <a
-            href="https://mitama987.github.io/xtp2n_free_lp/upgrade_lp_v2.html"
+            href="https://xtools-docs-auth.web.app/upgrade_lp_v2.html"
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center gap-3 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 px-6 py-4 rounded-2xl transition-all hover:bg-zinc-800/80"
