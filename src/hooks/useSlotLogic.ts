@@ -1,6 +1,19 @@
 import { useState, useCallback, useEffect } from 'react';
+import symbol7 from '@/assets/symbols/7.png';
+import symbolStar from '@/assets/symbols/star.png';
+import symbolBar from '@/assets/symbols/bar.png';
+import symbolCherry from '@/assets/symbols/cherry.png';
+import symbolBell from '@/assets/symbols/bell.png';
+import symbolDiamond from '@/assets/symbols/diamond.png';
 
-export const SYMBOLS = ['7', '★', 'BAR', '🍒', '🔔', '💎'];
+export const SYMBOLS = [
+    symbol7,
+    symbolStar,
+    symbolBar,
+    symbolCherry,
+    symbolBell,
+    symbolDiamond
+];
 export const MAX_SPINS_PER_DAY = 5;
 const STORAGE_KEY = 'luckySlot_spinData';
 

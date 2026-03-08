@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Volume2, VolumeX, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import symbol7 from '@/assets/symbols/7.png';
+import symbolStar from '@/assets/symbols/star.png';
 
 export function SlotMachine() {
     const {
@@ -218,7 +220,11 @@ export function SlotMachine() {
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
                     <div className="bg-gradient-to-br from-yellow-500/20 to-yellow-900/20 border border-yellow-500/50 rounded-xl p-4 flex flex-col items-center">
-                        <span className="text-3xl tracking-widest drop-shadow-md mb-2">7 7 7</span>
+                        <div className="flex gap-2 mb-2">
+                            {[0, 1, 2].map((i) => (
+                                <img key={i} src={symbol7} alt="7" className="w-10 h-10 object-contain drop-shadow-[0_0_10px_rgba(255,215,0,0.5)]" />
+                            ))}
+                        </div>
                         <span className="bg-yellow-500 text-black font-bold px-3 py-1 rounded-full text-xs mb-3">大当たり</span>
                         <div className="text-sm text-zinc-300 text-center space-y-1">
                             <p><span className="text-yellow-400 mr-2">買い切り</span> 4,980円</p>
@@ -226,7 +232,11 @@ export function SlotMachine() {
                         </div>
                     </div>
                     <div className="bg-gradient-to-br from-blue-500/20 to-blue-900/20 border border-blue-500/50 rounded-xl p-4 flex flex-col items-center">
-                        <span className="text-3xl tracking-widest drop-shadow-md mb-2">★ ★ ★</span>
+                        <div className="flex gap-2 mb-2">
+                            {[0, 1, 2].map((i) => (
+                                <img key={i} src={symbolStar} alt="Star" className="w-10 h-10 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                            ))}
+                        </div>
                         <span className="bg-blue-500 text-white font-bold px-3 py-1 rounded-full text-xs mb-3">当たり</span>
                         <div className="text-sm text-zinc-300 text-center space-y-1">
                             <p><span className="text-blue-400 mr-2">買い切り</span> 6,980円</p>
