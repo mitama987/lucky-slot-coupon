@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Slot - クーポン抽選</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 音声ON/OFFボタン -->
+        <button class="sound-toggle" id="soundToggle" title="音声ON/OFF">
+            <span class="sound-icon" id="soundIcon">🔊</span>
+        </button>
+
+        <h1 class="title">LUCKY SLOT</h1>
+        <p class="subtitle">回して当てよう！特別クーポン</p>
+
+        <div class="slot-machine">
+            <div class="slot-frame">
+                <div class="slot-display">
+                    <div class="reel-container">
+                        <div class="reel" id="reel1">
+                            <div class="symbol">7</div>
+                            <div class="symbol">★</div>
+                            <div class="symbol">BAR</div>
+                            <div class="symbol">🍒</div>
+                            <div class="symbol">🔔</div>
+                            <div class="symbol">💎</div>
+                        </div>
+                    </div>
+                    <div class="reel-container">
+                        <div class="reel" id="reel2">
+                            <div class="symbol">7</div>
+                            <div class="symbol">★</div>
+                            <div class="symbol">BAR</div>
+                            <div class="symbol">🍒</div>
+                            <div class="symbol">🔔</div>
+                            <div class="symbol">💎</div>
+                        </div>
+                    </div>
+                    <div class="reel-container">
+                        <div class="reel" id="reel3">
+                            <div class="symbol">7</div>
+                            <div class="symbol">★</div>
+                            <div class="symbol">BAR</div>
+                            <div class="symbol">🍒</div>
+                            <div class="symbol">🔔</div>
+                            <div class="symbol">💎</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="center-line"></div>
+            </div>
+
+            <button class="spin-button" id="spinBtn">
+                <span class="btn-text">SPIN</span>
+            </button>
+
+            <!-- 残り回数表示 -->
+            <div class="remaining-count" id="remainingCount">
+                本日あと <span id="countNumber">3</span> 回
+            </div>
+
+            <!-- 当たり一覧表 -->
+            <div class="prize-table">
+                <h3 class="prize-table-title">景品一覧</h3>
+                <div class="prize-list">
+                    <div class="prize-item jackpot">
+                        <div class="prize-symbol">7 7 7</div>
+                        <div class="prize-label">大当たり</div>
+                        <div class="prize-desc">
+                            <span class="price-type">買い切り</span> 4,980円<br>
+                            <span class="price-type">サブスク</span> 780円/月
+                        </div>
+                    </div>
+                    <div class="prize-item win">
+                        <div class="prize-symbol">★ ★ ★</div>
+                        <div class="prize-label">当たり</div>
+                        <div class="prize-desc">
+                            <span class="price-type">買い切り</span> 6,980円<br>
+                            <span class="price-type">サブスク</span> 980円/月
+                        </div>
+                    </div>
+                    <div class="prize-item win">
+                        <div class="prize-symbol">BAR</div>
+                        <div class="prize-label">当たり</div>
+                        <div class="prize-desc">
+                            <span class="price-type">買い切り</span> 6,980円<br>
+                            <span class="price-type">サブスク</span> 980円/月
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LP紹介リンク -->
+            <div class="lp-link">
+                <a href="https://mitama987.github.io/xtp2n_free_lp/upgrade_lp_v2.html" target="_blank" rel="noopener"
+                    class="lp-btn">
+                    <span class="lp-icon">📦</span>
+                    XToolsPro2_NoAPIの詳細はこちら
+                    <span class="lp-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 結果モーダル -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="resultModal">
+            <div class="modal-content">
+                <div class="result-icon" id="resultIcon"></div>
+                <h2 class="result-title" id="resultTitle"></h2>
+                <p class="result-message" id="resultMessage"></p>
+                <div class="coupon-box" id="couponBox">
+                    <span class="coupon-label">クーポンコード</span>
+                    <div class="coupon-code" id="couponCode"></div>
+                    <button class="copy-btn" id="copyBtn">コピー</button>
+                </div>
+                <p class="coupon-detail" id="couponDetail"></p>
+                <div class="payment-link-box" id="paymentLinkBox">
+                    <p class="payment-link-label">このクーポンは以下の決済ページで使えます</p>
+                    <a href="" class="payment-link-btn" id="paymentLink" target="_blank" rel="noopener">
+                        決済ページへ →
+                    </a>
+                </div>
+                <button class="close-btn" id="closeBtn">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
